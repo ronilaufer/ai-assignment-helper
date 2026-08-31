@@ -1,15 +1,9 @@
-# backend/main.py
-import os
 from fastapi import FastAPI, HTTPException, Form, UploadFile, File, Header
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from dotenv import load_dotenv
 from typing import Optional
 
 import json
-
-# Load the API key from the .env file
-load_dotenv()
 
 # Import functions from gemini_service!
 from services.gemini_service import get_step_response, get_chat_response
@@ -48,7 +42,7 @@ async def process_step(
     if not 1 <= step_number <= 5:
         raise HTTPException(status_code=400, detail="Step number must be between 1 and 5")
     
-    api_key = x_gemini_api_key or os.environ.get("GEMINI_API_KEY")
+    api_key = x_gemini_api_key
     if not api_key or not api_key.strip():
         raise HTTPException(
             status_code=400, 
@@ -84,7 +78,7 @@ async def chat_step(
     if not 1 <= step_number <= 5:
         raise HTTPException(status_code=400, detail="Step number must be between 1 and 5")
         
-    api_key = x_gemini_api_key or os.environ.get("GEMINI_API_KEY")
+    api_key = x_gemini_api_key
     if not api_key or not api_key.strip():
         raise HTTPException(
             status_code=400, 

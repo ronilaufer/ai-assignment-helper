@@ -33,10 +33,9 @@ ai-assignment-helper/
 │
 ├── backend/                   # FastAPI Server (Python)
 │   ├── main.py                # Server routes & API endpoints
-│   ├── services/
-│   │   ├── gemini_service.py  # Google Gemini API integration (gemini-3.5-flash)
-│   │   └── prompts.py         # Pedagogical prompt templates
-│   └── .env                   # Configuration file (API keys)
+│   └── services/
+│       ├── gemini_service.py  # Google Gemini API integration (gemini-3.5-flash)
+│       └── prompts.py         # Pedagogical prompt templates
 │
 └── frontend/                  # React Client (Vite)
     ├── src/
@@ -72,13 +71,9 @@ ai-assignment-helper/
    ```
 3. Install dependencies:
    ```bash
-   pip install fastapi uvicorn google-generativeai python-multipart python-dotenv pydantic
+   pip install fastapi uvicorn google-generativeai python-multipart pydantic
    ```
-4. Create a `.env` file in the `backend/` folder and add your Gemini API Key (obtained from [Google AI Studio](https://aistudio.google.com/)):
-   ```env
-   GEMINI_API_KEY=your_gemini_api_key_here
-   ```
-5. Run the FastAPI server:
+4. Run the FastAPI server:
    ```bash
    uvicorn main:app --reload
    ```
@@ -102,15 +97,19 @@ ai-assignment-helper/
 
 ### 3. Setup with Docker (Recommended)
 
-If you have **Docker** and **Docker Compose** installed, you can start both the backend and frontend with a single command without installing Python or Node.js locally:
+If you have **Docker** and **Docker Compose** installed, you can start both the backend and frontend with a single command:
 
-1. Create the `./backend/.env` file with your API key:
-   ```env
-   GEMINI_API_KEY=your_gemini_api_key_here
-   ```
-2. In the root directory, run:
+1. In the root directory, run:
    ```bash
    docker-compose up --build
    ```
-3. Open `http://localhost:5173` in your browser. All code edits on your host machine will hot-reload automatically!
+2. Open `http://localhost:5173` in your browser. All code edits on your host machine will hot-reload automatically!
+
+---
+
+## 🔑 Gemini API Key Configuration
+This application uses a **Bring Your Own Key (BYOK)** security design. You do not need to configure any environment variables or `.env` files on the server or host machine.
+* When you open the frontend website, enter your Gemini API Key in the dedicated settings bar at the top of the page.
+* You can generate a free API Key from [Google AI Studio](https://aistudio.google.com/app/apikey).
+* Your key is securely stored in your browser's local storage and is never saved or logged by the server.
 
