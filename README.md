@@ -4,6 +4,13 @@ A structured AI-powered study helper designed to guide students through homework
 
 ---
 
+## 🔗 Live Deployment URLs
+
+* **Frontend Website**: [https://ai-assignment-helper-fronted.onrender.com](https://ai-assignment-helper-fronted.onrender.com)
+* **Backend API**: [https://ai-assignment-helper-29ym.onrender.com](https://ai-assignment-helper-29ym.onrender.com)
+
+---
+
 ## 🌟 Key Features
 
 * **5-Step Learning Framework**:
