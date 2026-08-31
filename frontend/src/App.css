@@ -465,9 +465,9 @@
 
 /* API Key Configuration UI (Top-Left Positioned on Desktop) */
 .api-key-container {
-  position: absolute;
-  top: 36px;
-  left: 24px;
+  position: fixed;
+  top: 20px;
+  left: 20px;
   width: 250px;
   padding: 8px 12px;
   border-radius: 12px;
@@ -479,7 +479,7 @@
   flex-direction: column;
   align-items: center;
   gap: 6px;
-  z-index: 50;
+  z-index: 100; /* Increased z-index to stay above other elements when scrolling */
   transition: all 0.3s ease;
 }
 
