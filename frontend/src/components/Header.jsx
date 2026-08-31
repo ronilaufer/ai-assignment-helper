@@ -65,6 +65,14 @@ export default function Header({ geminiApiKey, setGeminiApiKey }) {
             )}
           </button>
         </div>
+        <a 
+          href="https://aistudio.google.com/app/apikey" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className="api-key-link"
+        >
+          לקבלת מפתח API לחץ כאן 🔑
+        </a>
       </div>
     </header>
   );

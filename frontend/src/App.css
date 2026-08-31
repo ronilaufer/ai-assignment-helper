@@ -468,24 +468,24 @@
   position: fixed;
   top: 20px;
   left: 20px;
-  width: 250px;
-  padding: 8px 12px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.7);
+  width: 280px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.75);
   border: 1px solid rgba(226, 232, 240, 0.8);
   backdrop-filter: blur(12px);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.01);
+  box-shadow: 0 4px 10px -1px rgba(0, 0, 0, 0.03), 0 2px 4px -1px rgba(0, 0, 0, 0.01);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   z-index: 100; /* Increased z-index to stay above other elements when scrolling */
   transition: all 0.3s ease;
 }
 
 .api-key-container:focus-within {
   border-color: #6366f1;
-  box-shadow: 0 8px 12px -3px rgba(99, 102, 241, 0.06);
+  box-shadow: 0 8px 16px -3px rgba(99, 102, 241, 0.08);
 }
 
 .api-key-header {
@@ -497,7 +497,7 @@
 
 .api-key-label {
   font-family: 'Gveret Levin', 'Assistant', sans-serif;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   color: #64748b;
 }
@@ -511,12 +511,12 @@
 
 .api-key-input {
   width: 100%;
-  padding: 6px 10px;
+  padding: 8px 12px;
   padding-left: 32px; /* Make space for eye button */
   border-radius: 8px;
   border: 1px solid #cbd5e1;
   outline: none;
-  font-size: 11px;
+  font-size: 12px;
   font-family: monospace;
   background: #ffffff;
   color: #334155;
@@ -530,6 +530,7 @@
   text-align: right;
   direction: rtl;
   color: #94a3b8;
+  font-size: 11px;
 }
 
 .api-key-input:focus {
@@ -543,7 +544,7 @@
   border: none;
   cursor: pointer;
   color: #64748b;
-  padding: 4px;
+  padding: 5px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -557,7 +558,7 @@
 }
 
 .api-key-badge-status {
-  font-size: 10px;
+  font-size: 10.5px;
   color: #10b981;
   font-weight: 600;
   display: flex;
@@ -567,6 +568,20 @@
 
 .api-key-badge-status.missing {
   color: #f59e0b;
+}
+
+.api-key-link {
+  font-size: 11px;
+  color: #4f46e5;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  margin-top: 2px;
+}
+
+.api-key-link:hover {
+  color: #312e81;
+  text-decoration: underline;
 }
 
 /* Responsive adjust for mobile */
