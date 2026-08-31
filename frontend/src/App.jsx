@@ -6,6 +6,8 @@ import QuestionInput from './components/QuestionInput';
 import StepSelector from './components/StepSelector';
 import ChatArea from './components/ChatArea';
 
+const API_BASE_URL = 'https://ai-assignment-helper-29ym.onrender.com';
+
 export default function App() {
   const [questionText, setQuestionText] = useState('');
   const [selectedStep, setSelectedStep] = useState(null);
@@ -104,7 +106,7 @@ export default function App() {
         formData.append('file', file);
       }
 
-      const res = await axios.post('http://localhost:8000/api/get-step', formData, {
+      const res = await axios.post(`${API_BASE_URL}/api/get-step`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -153,7 +155,7 @@ export default function App() {
         formData.append('file', file);
       }
 
-      const res = await axios.post('http://localhost:8000/api/chat-step', formData, {
+      const res = await axios.post(`${API_BASE_URL}/api/chat-step`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
