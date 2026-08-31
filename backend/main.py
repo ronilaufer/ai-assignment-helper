@@ -1,0 +1,95 @@
+# backend/main.py
+import os
+from fastapi import FastAPI, HTTPException, Form, UploadFile, File
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
+from dotenv import load_dotenv
+
+import json
+
+# Load the API key from the .env file
+load_dotenv()
+
+# Import functions from gemini_service!
+from services.gemini_service import get_step_response, get_chat_response
+
+# Create the server
+app = FastAPI(title="AI Assignment Helper Server")
+
+# Configure CORS - allows React to send requests to the server
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows access from any origin during development
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Define the request structure: what should the frontend send to the server?
+class StepRequest(BaseModel):
+    question_text: str  # Question text
+    step_number: int    # Step number (1 to 5)
+
+# Basic health check route
+@app.get("/")
+def home():
+    return {"status": "Server is up and running!"}
+
+# Main endpoint - accepts question text and step number, returning Gemini's response
+@app.post("/api/get-step")
+async def process_step(
+    question_text: str = Form(""),
+    step_number: int = Form(...),
+    file: UploadFile = File(None)
+):
+    # Validation: verify that the step number is between 1 and 5
+    if not 1 <= step_number <= 5:
+        raise HTTPException(status_code=400, detail="Step number must be between 1 and 5")
+    
+    try:
+        file_bytes = None
+        mime_type = None
+        if file:
+            file_bytes = await file.read()
+            mime_type = file.content_type
+            
+        # Invoke service function to get the AI response
+        ai_response = get_step_response(question_text, step_number, file_bytes, mime_type)
+        return {
+            "step": step_number,
+            "answer": ai_response
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+# Chat endpoint for step-specific follow-up questions
+@app.post("/api/chat-step")
+async def chat_step(
+    question_text: str = Form(""),
+    step_number: int = Form(...),
+    chat_history_json: str = Form("[]"),
+    new_message: str = Form(...),
+    file: UploadFile = File(None)
+):
+    if not 1 <= step_number <= 5:
+        raise HTTPException(status_code=400, detail="Step number must be between 1 and 5")
+        
+    try:
+        file_bytes = None
+        mime_type = None
+        if file:
+            file_bytes = await file.read()
+            mime_type = file.content_type
+            
+        try:
+            chat_history = json.loads(chat_history_json)
+        except Exception:
+            chat_history = []
+            
+        ai_response = get_chat_response(question_text, step_number, chat_history, new_message, file_bytes, mime_type)
+        return {
+            "step": step_number,
+            "answer": ai_response
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
