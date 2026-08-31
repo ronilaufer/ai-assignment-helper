@@ -462,3 +462,134 @@
   box-shadow: none;
   cursor: not-allowed;
 }
+
+/* API Key Configuration UI */
+.api-key-container {
+  max-width: 500px;
+  margin: 0 auto 24px auto;
+  padding: 14px 20px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.01);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+.api-key-container:focus-within {
+  border-color: #6366f1;
+  box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.08);
+}
+
+.api-key-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  justify-content: center;
+}
+
+.api-key-label {
+  font-family: 'Gveret Levin', 'Assistant', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #475569;
+}
+
+.api-key-input-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.api-key-input {
+  width: 100%;
+  padding: 10px 16px;
+  padding-left: 42px; /* Make space for eye button */
+  border-radius: 10px;
+  border: 1px solid #cbd5e1;
+  outline: none;
+  font-size: 13px;
+  font-family: monospace;
+  background: #ffffff;
+  color: #334155;
+  transition: all 0.2s;
+  text-align: left;
+  direction: ltr;
+}
+
+.api-key-input::placeholder {
+  font-family: 'Assistant', sans-serif;
+  text-align: right;
+  direction: rtl;
+  color: #94a3b8;
+}
+
+.api-key-input:focus {
+  border-color: #6366f1;
+}
+
+.api-key-toggle-btn {
+  position: absolute;
+  left: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #64748b;
+  padding: 6px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.api-key-toggle-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: #334155;
+}
+
+.api-key-badge-status {
+  font-size: 11px;
+  color: #10b981;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.api-key-badge-status.missing {
+  color: #f59e0b;
+}
+
+/* Warnings and Alerts */
+.warning-box {
+  background: rgba(254, 243, 199, 0.6);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  color: #b45309;
+  padding: 16px 20px;
+  border-radius: 16px;
+  margin-bottom: 24px;
+  font-weight: 600;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  animation: pulse-border 2s infinite;
+}
+
+@keyframes pulse-border {
+  0% {
+    border-color: rgba(245, 158, 11, 0.3);
+  }
+  50% {
+    border-color: rgba(245, 158, 11, 0.6);
+  }
+  100% {
+    border-color: rgba(245, 158, 11, 0.3);
+  }
+}
+

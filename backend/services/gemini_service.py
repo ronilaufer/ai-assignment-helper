@@ -6,12 +6,13 @@ import os
 import google.generativeai as genai
 from .prompts import CONCEPTS_PROMPT, EXPLANATION_PROMPT, INTUITION_PROMPT, WALKTHROUGH_PROMPT, FORMAL_PROMPT
 
-# define API key from .env file
-genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
-model = genai.GenerativeModel('gemini-3.5-flash')
+import threading
+
+# Thread lock to protect global google-generativeai client configuration
+api_lock = threading.Lock()
 
 # define function to get step response
-def get_step_response(question_text: str, step_number: int, file_bytes: bytes = None, mime_type: str = None):
+def get_step_response(question_text: str, step_number: int, api_key: str, file_bytes: bytes = None, mime_type: str = None):
     prompts_map = {
         1: CONCEPTS_PROMPT,
         2: EXPLANATION_PROMPT,
@@ -34,10 +35,13 @@ def get_step_response(question_text: str, step_number: int, file_bytes: bytes = 
     contents.append(full_prompt)
     
     # get response from model and get answer text
-    response = model.generate_content(contents)
+    with api_lock:
+        genai.configure(api_key=api_key)
+        model = genai.GenerativeModel('gemini-3.5-flash')
+        response = model.generate_content(contents)
     return response.text
 
-def get_chat_response(question_text: str, step_number: int, chat_history: list, new_message: str, file_bytes: bytes = None, mime_type: str = None):
+def get_chat_response(question_text: str, step_number: int, chat_history: list, new_message: str, api_key: str, file_bytes: bytes = None, mime_type: str = None):
     prompts_map = {
         1: CONCEPTS_PROMPT,
         2: EXPLANATION_PROMPT,
@@ -74,6 +78,9 @@ def get_chat_response(question_text: str, step_number: int, chat_history: list, 
         })
         
     # Start chat and generate response
-    chat = model.start_chat(history=formatted_history)
-    response = chat.send_message(new_message)
+    with api_lock:
+        genai.configure(api_key=api_key)
+        model = genai.GenerativeModel('gemini-3.5-flash')
+        chat = model.start_chat(history=formatted_history)
+        response = chat.send_message(new_message)
     return response.text

@@ -13,6 +13,7 @@ export default function App() {
   const [selectedStep, setSelectedStep] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [geminiApiKey, setGeminiApiKey] = useState(localStorage.getItem('gemini_api_key') || '');
 
   // File upload state variables
   const [file, setFile] = useState(null);
@@ -91,6 +92,12 @@ export default function App() {
       return;
     }
 
+    if (!geminiApiKey.trim()) {
+      alert('נא להכניס מפתח API של Gemini בראש הדף כדי להתחיל');
+      setError('מפתח ה-API של Gemini חסר. אנא הזן מפתח בראש הדף כדי לפתור את השאלה.');
+      return;
+    }
+
     setSelectedStep(stepId);
     setError(null);
 
@@ -109,6 +116,7 @@ export default function App() {
       const res = await axios.post(`${API_BASE_URL}/api/get-step`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
+          'X-Gemini-API-Key': geminiApiKey.trim()
         },
       });
 
@@ -127,6 +135,12 @@ export default function App() {
   const handleSendChatMessage = async (stepId) => {
     const messageText = chatInputs[stepId]?.trim();
     if (!messageText) return;
+
+    if (!geminiApiKey.trim()) {
+      alert('נא להכניס מפתח API של Gemini בראש הדף כדי להתחיל');
+      setError('מפתח ה-API של Gemini חסר. אנא הזן מפתח בראש הדף כדי לשלוח הודעה.');
+      return;
+    }
 
     const userMessage = { role: 'user', content: messageText };
     const currentHistory = chatHistories[stepId] || [];
@@ -158,6 +172,7 @@ export default function App() {
       const res = await axios.post(`${API_BASE_URL}/api/chat-step`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
+          'X-Gemini-API-Key': geminiApiKey.trim()
         },
       });
 
@@ -188,7 +203,13 @@ export default function App() {
       <div className="glow-bg-2" />
 
       {/* 1. Title/Header */}
-      <Header />
+      <Header geminiApiKey={geminiApiKey} setGeminiApiKey={setGeminiApiKey} />
+
+      {!geminiApiKey.trim() && (
+        <div className="warning-box">
+          ⚠️ שים לב: עליך להזין מפתח API של Gemini בתיבה שלמעלה כדי להפעיל את פותר המטלות.
+        </div>
+      )}
 
       {/* 2. Question input / File upload */}
       <QuestionInput 

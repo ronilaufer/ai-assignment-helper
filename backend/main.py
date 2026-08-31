@@ -1,9 +1,10 @@
 # backend/main.py
 import os
-from fastapi import FastAPI, HTTPException, Form, UploadFile, File
+from fastapi import FastAPI, HTTPException, Form, UploadFile, File, Header
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from dotenv import load_dotenv
+from typing import Optional
 
 import json
 
@@ -40,12 +41,20 @@ def home():
 async def process_step(
     question_text: str = Form(""),
     step_number: int = Form(...),
-    file: UploadFile = File(None)
+    file: UploadFile = File(None),
+    x_gemini_api_key: Optional[str] = Header(None)
 ):
     # Validation: verify that the step number is between 1 and 5
     if not 1 <= step_number <= 5:
         raise HTTPException(status_code=400, detail="Step number must be between 1 and 5")
     
+    api_key = x_gemini_api_key or os.environ.get("GEMINI_API_KEY")
+    if not api_key or not api_key.strip():
+        raise HTTPException(
+            status_code=400, 
+            detail="מפתח ה-API של Gemini חסר. אנא הזן מפתח תקין בראש האתר."
+        )
+
     try:
         file_bytes = None
         mime_type = None
@@ -54,7 +63,7 @@ async def process_step(
             mime_type = file.content_type
             
         # Invoke service function to get the AI response
-        ai_response = get_step_response(question_text, step_number, file_bytes, mime_type)
+        ai_response = get_step_response(question_text, step_number, api_key.strip(), file_bytes, mime_type)
         return {
             "step": step_number,
             "answer": ai_response
@@ -69,11 +78,19 @@ async def chat_step(
     step_number: int = Form(...),
     chat_history_json: str = Form("[]"),
     new_message: str = Form(...),
-    file: UploadFile = File(None)
+    file: UploadFile = File(None),
+    x_gemini_api_key: Optional[str] = Header(None)
 ):
     if not 1 <= step_number <= 5:
         raise HTTPException(status_code=400, detail="Step number must be between 1 and 5")
         
+    api_key = x_gemini_api_key or os.environ.get("GEMINI_API_KEY")
+    if not api_key or not api_key.strip():
+        raise HTTPException(
+            status_code=400, 
+            detail="מפתח ה-API של Gemini חסר. אנא הזן מפתח תקין בראש האתר."
+        )
+
     try:
         file_bytes = None
         mime_type = None
@@ -86,7 +103,7 @@ async def chat_step(
         except Exception:
             chat_history = []
             
-        ai_response = get_chat_response(question_text, step_number, chat_history, new_message, file_bytes, mime_type)
+        ai_response = get_chat_response(question_text, step_number, chat_history, new_message, api_key.strip(), file_bytes, mime_type)
         return {
             "step": step_number,
             "answer": ai_response
