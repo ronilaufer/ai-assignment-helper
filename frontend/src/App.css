@@ -625,4 +625,36 @@
   }
 }
 
+/* Footer Signature */
+.app-footer {
+  margin-top: 54px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(226, 232, 240, 0.8);
+  text-align: center;
+  font-size: 13.5px;
+  color: #94a3b8;
+  font-family: 'Assistant', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.app-footer p {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.app-footer span {
+  font-weight: 700;
+  color: #64748b;
+  transition: color 0.2s ease;
+  cursor: default;
+}
+
+.app-footer span:hover {
+  color: #4f46e5;
+}
+
 

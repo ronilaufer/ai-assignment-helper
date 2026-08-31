@@ -306,6 +306,10 @@ export default function App() {
         setChatInput={(val) => setChatInputs(prev => ({ ...prev, [selectedStep]: val }))}
         handleSendChatMessage={() => handleSendChatMessage(selectedStep)}
       />
+
+      <footer className="app-footer">
+        <p>Created with 💻 & ☕ by <span>Roni Laufer</span></p>
+      </footer>
       
     </div>
   );
