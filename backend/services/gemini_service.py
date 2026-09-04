@@ -11,6 +11,9 @@ import threading
 # Thread lock to protect global google-generativeai client configuration
 api_lock = threading.Lock()
 
+# Default model configured for maximum speed and minimal latency
+DEFAULT_MODEL = "gemini-1.5-flash-8b"
+
 # define function to get step response
 def get_step_response(question_text: str, step_number: int, api_key: str, file_bytes: bytes = None, mime_type: str = None):
     prompts_map = {
@@ -37,7 +40,7 @@ def get_step_response(question_text: str, step_number: int, api_key: str, file_b
     # get response from model and get answer text
     with api_lock:
         genai.configure(api_key=api_key)
-        model = genai.GenerativeModel('gemini-3.5-flash')
+        model = genai.GenerativeModel(DEFAULT_MODEL)
         response = model.generate_content(contents)
     return response.text
 
@@ -80,7 +83,7 @@ def get_chat_response(question_text: str, step_number: int, chat_history: list, 
     # Start chat and generate response
     with api_lock:
         genai.configure(api_key=api_key)
-        model = genai.GenerativeModel('gemini-3.5-flash')
+        model = genai.GenerativeModel(DEFAULT_MODEL)
         chat = model.start_chat(history=formatted_history)
         response = chat.send_message(new_message)
     return response.text

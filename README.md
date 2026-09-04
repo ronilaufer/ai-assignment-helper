@@ -34,7 +34,7 @@ ai-assignment-helper/
 ├── backend/                   # FastAPI Server (Python)
 │   ├── main.py                # Server routes & API endpoints
 │   └── services/
-│       ├── gemini_service.py  # Google Gemini API integration (gemini-3.5-flash)
+│       ├── gemini_service.py  # Google Gemini API integration (gemini-1.5-flash-8b)
 │       └── prompts.py         # Pedagogical prompt templates
 │
 └── frontend/                  # React Client (Vite)
